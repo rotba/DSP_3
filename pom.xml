@@ -41,6 +41,21 @@
             <artifactId>aws-java-sdk-ec2</artifactId>
             <version>1.12.231</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.opennlp</groupId>
+            <artifactId>opennlp-tools</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+
         <!-- Thanks for using https://jar-download.com -->
 
     </dependencies>
