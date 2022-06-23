@@ -1,12 +1,12 @@
-package mr.joinwn;
+package mr.common;
 
-import common.TriplesDBKey;
+import mr.common.TriplesDBKey;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class WNCCombiner extends Reducer<TriplesDBKey, IntWritable, TriplesDBKey, IntWritable> {
+public class TBDKeyCombiner extends Reducer<TriplesDBKey, IntWritable, TriplesDBKey, IntWritable> {
     @Override
     protected void reduce(TriplesDBKey key, Iterable<IntWritable> values, Reducer<TriplesDBKey, IntWritable, TriplesDBKey, IntWritable>.Context context) throws IOException, InterruptedException {
         int sum = 0;

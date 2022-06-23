@@ -8,6 +8,8 @@ public class MasterMain {
         String job = args[0];
         if (job.equals("WN")) {
             mr.joinwn.Main.main(subarray);
+        }else if(job.equals("MI")){
+            mr.calcmi.Main.main(subarray);
         }
     }
 }

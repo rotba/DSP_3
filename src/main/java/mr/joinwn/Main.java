@@ -1,7 +1,9 @@
 package mr.joinwn;
 
-import common.TriplesDBKey;
-import common.TriplesDBValue;
+import mr.common.TBDKeyCombiner;
+import mr.common.TBDKeyPartitioner;
+import mr.common.TriplesDBKey;
+import mr.common.TriplesDBValue;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
@@ -9,12 +11,9 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.SequenceFileAsTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.apache.hadoop.util.Progressable;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedWriter;
@@ -55,9 +54,9 @@ public class Main {
         Job job = Job.getInstance(conf, "joinwn");
         job.setJarByClass(Main.class);
         job.setMapperClass(WNMapper.class);
-        job.setCombinerClass(WNCCombiner.class);
+        job.setCombinerClass(TBDKeyCombiner.class);
         job.setReducerClass(WNCReducer.class);
-        job.setPartitionerClass(WNPartitioner.class);
+        job.setPartitionerClass(TBDKeyPartitioner.class);
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputKeyClass(TriplesDBKey.class);
         job.setOutputValueClass(TriplesDBValue.class);
@@ -76,7 +75,6 @@ public class Main {
         OutputStream os = fileSystem.create(file);
         BufferedWriter br = new BufferedWriter( new OutputStreamWriter( os, "UTF-8" ) );
         br.write("SLOTX\t"+job.getCounters().findCounter(WNCReducer.ReducerCounters.XSLOT_TOTAL).getValue()+"\n");
-        br.write("SLOTY\t"+job.getCounters().findCounter(WNCReducer.ReducerCounters.YSLOT_TOTAL).getValue()+"\n");
         br.close();
         fileSystem.close();
         System.exit(0 );

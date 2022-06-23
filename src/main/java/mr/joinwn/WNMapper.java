@@ -1,11 +1,13 @@
 package mr.joinwn;
 
-import common.TriplesDBKey;
+import mr.calcmi.MiReducer;
+import mr.common.TriplesDBKey;
 import googlebiarcs.DependecyPath;
 import googlebiarcs.ParsedBiarcs;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.log4j.Logger;
 import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.IOException;
@@ -53,14 +55,12 @@ public class WNMapper extends Mapper<Object, Text, TriplesDBKey, IntWritable> {
             if(dp.slotXTypeIsNoun()&& dp.slotYTypeIsNoun()){
                 context.write(new TriplesDBKey(TriplesDBKey.STAR, TriplesDBKey.X, TriplesDBKey.STAR, ""), new IntWritable(pb.getCount()));
                 context.write(new TriplesDBKey(TriplesDBKey.STAR, TriplesDBKey.X, dp.getX(), ""), new IntWritable(pb.getCount()));
-                context.write(new TriplesDBKey(TriplesDBKey.STAR, TriplesDBKey.Y, TriplesDBKey.STAR, ""), new IntWritable(pb.getCount()));
                 context.write(new TriplesDBKey(TriplesDBKey.STAR, TriplesDBKey.Y, dp.getY(), ""), new IntWritable(pb.getCount()));
                 String pathStemmedK = dp.getPathStemmedK();
                 if(testSet.containsKey(pathStemmedK)){
-                    context.write(new TriplesDBKey(pathStemmedK, TriplesDBKey.X, dp.getX(), testSet.get(pathStemmedK)), new IntWritable(pb.getCount()));
                     context.write(new TriplesDBKey(pathStemmedK, TriplesDBKey.X, TriplesDBKey.STAR, testSet.get(pathStemmedK)), new IntWritable(pb.getCount()));
+                    context.write(new TriplesDBKey(pathStemmedK, TriplesDBKey.X, dp.getX(), testSet.get(pathStemmedK)), new IntWritable(pb.getCount()));
                     context.write(new TriplesDBKey(pathStemmedK, TriplesDBKey.Y, dp.getY(), testSet.get(pathStemmedK)), new IntWritable(pb.getCount()));
-                    context.write(new TriplesDBKey(pathStemmedK, TriplesDBKey.Y, TriplesDBKey.STAR, testSet.get(pathStemmedK)), new IntWritable(pb.getCount()));
                 }
             }
         }

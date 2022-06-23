@@ -1,4 +1,4 @@
-package common;
+package mr.common;
 
 import org.apache.hadoop.io.WritableComparable;
 
@@ -15,6 +15,8 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
     private String w;
     private String naturalK;
 
+    private boolean joinPn;
+
     public String getStemmedK() {
         return stemmedK;
     }
@@ -26,6 +28,15 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
     @Override
     public String toString() {
         return stemmedK+"\t"+slot+"\t"+w+"\t"+naturalK;
+    }
+
+    public static TriplesDBKey parse(String line){
+        try {
+            String[] splitted = line.split("\\t");
+            return new TriplesDBKey(splitted[0],splitted[1],splitted[2],splitted[3]);
+        }catch (Exception e){
+            throw new RuntimeException(String.format("line:%s", line));
+        }
     }
 
     public String getSlot() {
@@ -53,6 +64,7 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
     }
 
     public TriplesDBKey() {
+        joinPn = false;
     }
 
     public TriplesDBKey(String stemmedK, String slot, String w, String naturalK) {
@@ -60,7 +72,9 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
         this.slot = slot;
         this.w = w;
         this.naturalK = naturalK;
+        joinPn = false;
     }
+
 
     @Override
     public int compareTo(TriplesDBKey o) {
@@ -74,28 +88,44 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
                 return -1;
             }
         }
-        if(stemmedK.equals(o.stemmedK) && slot.equals(o.slot)){
-            return 0;
+        if(stemmedK.equals(o.stemmedK) && w.equals(o.w)){
+            return slot.equals(X) ? -1 : 1;
         }
-        if(w.equals(STAR)){
-            if(o.w.equals(STAR)){
-                return stemmedK.compareTo(o.stemmedK);
-            }
-            return -1;
-        }
-        if(stemmedK.equals(STAR)){
-            if(o.w.equals(w)){
-                return -1;
-            }else{
-                return w.compareTo(o.w);
-            }
-        }
-        if(o.w.equals(STAR)){
-            return 1;
-        }else if(o.stemmedK.equals(STAR) && w.equals(o.w)){
-            return 1;
+        if(joinPn){
+            return applyJoinPn(o);
         }else{
+            return applyJoinWn(o);
+        }
+    }
+
+    private int applyJoinPn(TriplesDBKey o) {
+        if(w.equals(TriplesDBKey.STAR) && o.stemmedK.equals(stemmedK)){
+            return -1;
+        }else if(o.w.equals(TriplesDBKey.STAR) && o.stemmedK.equals(stemmedK)){
+            return 1;
+        } else if(stemmedK.equals(o.stemmedK)){
             return w.compareTo(o.w);
+        }else{
+            return stemmedK.compareTo(o.stemmedK);
+        }
+    }
+
+    private int applyJoinWn(TriplesDBKey o) {
+        if(w.equals(STAR) && o.w.equals(STAR)){
+            return stemmedK.compareTo(o.stemmedK);
+        }else if(w.equals(STAR)){
+            return -1;
+        }else if (o.w.equals(STAR)){
+            return 1;
+        }
+        if(stemmedK.equals(STAR) && o.w.equals(w)){
+            return -1;
+        }else if(o.stemmedK.equals(STAR)&& o.w.equals(w)){
+            return 1;
+        }else if (!w.equals(o.w)){
+            return w.compareTo(o.w);
+        } else {
+            return stemmedK.compareTo(o.stemmedK);
         }
     }
 
@@ -105,6 +135,7 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
         dataOutput.writeUTF(slot);
         dataOutput.writeUTF(w);
         dataOutput.writeUTF(naturalK);
+        dataOutput.writeBoolean(joinPn);
     }
 
     @Override
@@ -113,5 +144,14 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
         slot = dataInput.readUTF();
         w = dataInput.readUTF();
         naturalK = dataInput.readUTF();
+        joinPn = dataInput.readBoolean();
+    }
+
+    public boolean isJoinPn() {
+        return joinPn;
+    }
+
+    public void setJoinPn(boolean joinPn) {
+        this.joinPn = joinPn;
     }
 }

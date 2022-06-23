@@ -1,6 +1,7 @@
-package common;
+package mr.common;
 
 import org.apache.hadoop.io.Writable;
+import org.apache.log4j.Logger;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -58,6 +59,20 @@ public class TriplesDBValue implements Writable {
     @Override
     public String toString() {
         return slotN+"\t"+pN+"\t"+wN+"\t"+n;
+    }
+
+    public static TriplesDBValue parse(String valString) {
+        try {
+            String[] splitted = valString.split("\\t");
+            return new TriplesDBValue(
+                    Integer.parseInt(splitted[0]),
+                    Integer.parseInt(splitted[1]),
+                    Integer.parseInt(splitted[2]),
+                    Integer.parseInt(splitted[3])
+            );
+        }catch (Exception e){
+            throw new RuntimeException(String.format("line:%s", valString));
+        }
     }
 
     @Override
