@@ -1,14 +1,12 @@
 package mr.joinwn;
 
-import mr.calcmi.MiReducer;
 import mr.common.TriplesDBKey;
 import googlebiarcs.DependecyPath;
 import googlebiarcs.ParsedBiarcs;
+import mr.common.Utils;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.log4j.Logger;
-import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,30 +16,7 @@ public class WNMapper extends Mapper<Object, Text, TriplesDBKey, IntWritable> {
     @Override
     protected void setup(Mapper<Object, Text, TriplesDBKey, IntWritable>.Context context) throws IOException, InterruptedException {
         super.setup(context);
-        String[][] testSetRaw = Utils.parseTestSet(context.getConfiguration().get("TESTSET"));
-        testSet = toHashMap(testSetRaw);
-    }
-
-    public static Map<String, String> toHashMap(String[][] testSetRaw) {
-        Map<String,String> ans = new HashMap<>();
-        for (int i = 0; i < testSetRaw.length; i++) {
-            for (int j = 0; j < 2; j++) {
-                String stemmedSentence = null;
-                String[] words = testSetRaw[i][j].split("\\s+");
-                for (int k = 0; k < words.length; k++) {
-                    PorterStemmer porterStemmer = new PorterStemmer();
-                    porterStemmer.setCurrent(words[k]);
-                    porterStemmer.stem();
-                    String stemmedWord = porterStemmer.getCurrent();
-                    if(stemmedSentence == null)
-                        stemmedSentence = stemmedWord;
-                    else
-                        stemmedSentence+=" "+stemmedWord;
-                }
-                ans.put(stemmedSentence, testSetRaw[i][j]);
-            }
-        }
-        return ans;
+        testSet = Utils.toHashMap(context.getConfiguration().get("TESTSET"));
     }
 
     @Override

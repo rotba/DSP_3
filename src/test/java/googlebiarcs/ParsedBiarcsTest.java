@@ -1,8 +1,6 @@
 package googlebiarcs;
 
-import mr.joinwn.Utils;
-import mr.joinwn.WNMapper;
-import opennlp.tools.stemmer.PorterStemmer;
+import mr.common.Utils;
 import org.junit.Test;
 
 import java.io.File;
@@ -41,7 +39,7 @@ public class ParsedBiarcsTest {
                 lines) {
             all += line += "\n";
         }
-        Map<String,String> map = WNMapper.toHashMap(Utils.parseTestSet(all));
+        Map<String,String> map = Utils.toHashMap(all);
         for (String key:
              map.keySet()) {
             System.out.println(key);

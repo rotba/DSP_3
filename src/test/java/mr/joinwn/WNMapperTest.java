@@ -1,10 +1,9 @@
 package mr.joinwn;
 
+import mr.common.Utils;
 import org.junit.Test;
 
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 public class WNMapperTest {
     public static String testSet = "X respond to Y\tY eliminate X\n" +
@@ -35,7 +34,7 @@ public class WNMapperTest {
             "X attribute to Y\tX cause by Y";
     @Test
     public void testTestSetParsing() {
-        Map<String,String> parsed = WNMapper.toHashMap(Utils.parseTestSet(testSet));
+        Map<String,String> parsed = Utils.toHashMap(testSet);
 
         for (String key:
                 parsed.keySet()) {
