@@ -7,17 +7,13 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 public class Main {
     public static final Logger logger = Logger.getLogger(Main.class);
@@ -52,7 +48,7 @@ public class Main {
         job.setOutputValueClass(DoubleWritable.class);
         job.setInputFormatClass(TDBKInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
-        if(local.equals("LOCAL")) job.setNumReduceTasks(3);
+        if(local.equals("LOCAL")) job.setNumReduceTasks(1);
         conf.set("LOCAL", local);
         conf.reloadConfiguration();
         TextInputFormat.addInputPath(job, new Path(input));

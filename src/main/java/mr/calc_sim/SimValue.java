@@ -11,12 +11,13 @@ import java.io.IOException;
 
 public class SimValue implements Writable {
     public TriplesDBKey key;
-    public DoubleWritable value;
+    public double value;
 
     public SimValue() {
+        key = new TriplesDBKey();
     }
 
-    public SimValue(TriplesDBKey key, DoubleWritable value) {
+    public SimValue(TriplesDBKey key, double value) {
         this.key = key;
         this.value = value;
     }
@@ -24,13 +25,13 @@ public class SimValue implements Writable {
     @Override
     public void write(DataOutput dataOutput) throws IOException {
         key.write(dataOutput);
-        value.write(dataOutput);
+        dataOutput.writeDouble(value);
     }
 
     @Override
     public void readFields(DataInput dataInput) throws IOException {
         key.readFields(dataInput);
-        value.readFields(dataInput);
+        value = dataInput.readDouble();
     }
 
     public TriplesDBKey getKey() {
@@ -41,11 +42,11 @@ public class SimValue implements Writable {
         this.key = key;
     }
 
-    public DoubleWritable getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(DoubleWritable value) {
+    public void setValue(double value) {
         this.value = value;
     }
 }

@@ -37,7 +37,9 @@ import java.io.IOException;
             context.getCounter(ReducerCounters.SLOT_COUNT).increment(1);
             context.getCounter(ReducerCounters.XSLOT_TOTAL).increment(sum);
         } else if (key.getW().equals(TriplesDBKey.STAR)) {
-            context.write(key, new TriplesDBValue(-1, sum, -1,-1));
+            TriplesDBValue valueout = new TriplesDBValue(-1, sum, -1, -1);
+            context.write(key, valueout);
+            if (LOCAL)logger.info(String.format("emit: k:%s, v:%s", key.toString(), valueout.toString()));
             context.getCounter(ReducerCounters.P_COUNT).increment(1);
         } else if (key.getStemmedK().equals(TriplesDBKey.STAR)) {
             wn = sum;
@@ -49,7 +51,9 @@ import java.io.IOException;
                 return;
             }
             context.getCounter(ReducerCounters.K_COUNT).increment(1);
-            context.write(key, new TriplesDBValue(-1, -1, wn, sum));
+            TriplesDBValue valueout = new TriplesDBValue(-1, -1, wn, sum);
+            context.write(key, valueout);
+            if (LOCAL)logger.info(String.format("emit: k:%s, v:%s", key.toString(), valueout.toString()));
         }
     }
 }

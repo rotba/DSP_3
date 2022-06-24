@@ -57,12 +57,13 @@ public class Main {
         job.setCombinerClass(TBDKeyCombiner.class);
         job.setReducerClass(WNCReducer.class);
         job.setPartitionerClass(TBDKeyPartitioner.class);
+        job.setMapOutputKeyClass(TriplesDBKey.class);
         job.setMapOutputValueClass(IntWritable.class);
-        job.setOutputKeyClass(TriplesDBKey.class);
-        job.setOutputValueClass(TriplesDBValue.class);
+//        job.setOutputKeyClass(TriplesDBKey.class);
+//        job.setOutputValueClass(TriplesDBValue.class);
         job.setInputFormatClass(TextInputFormat.class);
-        job.setOutputFormatClass(TextOutputFormat.class);
-        if(local.equals("LOCAL")) job.setNumReduceTasks(3);
+//        job.setOutputFormatClass(TextOutputFormat.class);
+        if(local.equals("LOCAL")) job.setNumReduceTasks(1);
         TextInputFormat.addInputPath(job, new Path(input));
         FileOutputFormat.setOutputPath(job, new Path(output));
         boolean b = job.waitForCompletion(true);

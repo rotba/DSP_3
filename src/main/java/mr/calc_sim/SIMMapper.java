@@ -23,9 +23,27 @@ public class SIMMapper extends Mapper<TriplesDBKey, DoubleWritable, Text, SimVal
         for (int i = 0; i < testSet.length; i++) {
             for (int j = 0; j < testSet[i].length; j++) {
                 if(key.getNaturalK().equals(testSet[i][j])){
-                    context.write(new Text(testSet[i][0]+"\t"+testSet[i][1]), new SimValue(key,value));
+                    context.write(new Text(testSet[i][0]+"\t"+testSet[i][1]), new SimValue(key,value.get()));
+                    String replaceXY = replaceXY(testSet[i][1]);
+                    context.write(new Text(testSet[i][0]+"\t"+ replaceXY), new SimValue(new TriplesDBKey(key.getStemmedK(), key.getSlot(), key.getW(), replaceXY),value.get()));
                 }
             }
         }
+    }
+
+    public static String replaceXY(String s) {
+        String[] splitted = s.split("\\s+");
+        String ans = "";
+        for (int i = 0; i < splitted.length; i++) {
+            if(!ans.equals("")) ans = ans+" ";
+            if (splitted[i].equals("X")){
+                ans+="Y";
+            }else if (splitted[i].equals("Y")) {
+                ans+="X";
+            }else{
+                ans+=splitted[i];
+            }
+        }
+        return ans;
     }
 }

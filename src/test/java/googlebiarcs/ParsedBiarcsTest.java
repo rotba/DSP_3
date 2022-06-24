@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class ParsedBiarcsTest {
     @Test
-    public void testRawToPaths() {
-        List<String> lines = readFile("/home/rotemb271/Code/School/bgu/extern/DSP_3/data/small/single_sent.txt");
+    public void testRawToPaths() throws SyntacticNgramHasNot4Parts {
+        List<String> lines = readFile("/home/rotemb271/Code/School/bgu/extern/DSP_3/data/small/data");
         int counter = 0;
         for (String line:
              lines) {

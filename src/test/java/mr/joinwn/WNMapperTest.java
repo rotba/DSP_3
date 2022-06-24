@@ -39,7 +39,6 @@ public class WNMapperTest {
         for (String key:
                 parsed.keySet()) {
             System.out.println(key);
-            System.out.println(parsed.get(key));
         }
     }
 }

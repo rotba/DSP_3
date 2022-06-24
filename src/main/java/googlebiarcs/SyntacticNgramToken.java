@@ -15,7 +15,7 @@ public class SyntacticNgramToken {
     }
 
     private int selfIndex;
-    public SyntacticNgramToken(String biarcString, int selfIndex){
+    public SyntacticNgramToken(String biarcString, int selfIndex) throws SyntacticNgramHasNot4Parts {
         String[] splitted = biarcString.split("/");
         if(splitted.length!=4){
             throw new SyntacticNgramHasNot4Parts(biarcString);

@@ -10,7 +10,7 @@ public class Utils {
         String[] arrOfStr = testset.split("\n");
         String[][] ans = new String[arrOfStr.length][];
         for (int i = 0; i < arrOfStr.length; i++) {
-            ans[i] = arrOfStr[i].split("\\t");
+            ans[i] = arrOfStr[i].replace("\r","").split("\\t");
         }
         return ans;
     }
@@ -22,11 +22,13 @@ public class Utils {
             for (int j = 0; j < 2; j++) {
                 String stemmedSentence = null;
                 String[] words = testSetRaw[i][j].split("\\s+");
+                words[0] = TriplesDBKey.X;
+                words[words.length-1] = TriplesDBKey.Y;
                 for (int k = 0; k < words.length; k++) {
                     PorterStemmer porterStemmer = new PorterStemmer();
                     porterStemmer.setCurrent(words[k]);
                     porterStemmer.stem();
-                    String stemmedWord = porterStemmer.getCurrent();
+                    String stemmedWord = (porterStemmer.getCurrent());
                     if(stemmedSentence == null)
                         stemmedSentence = stemmedWord;
                     else

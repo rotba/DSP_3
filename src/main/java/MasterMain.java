@@ -10,6 +10,8 @@ public class MasterMain {
             mr.joinwn.Main.main(subarray);
         }else if(job.equals("MI")){
             mr.calcmi.Main.main(subarray);
+        }else if(job.equals("SIM")){
+            mr.calc_sim.Main.main(subarray);
         }
     }
 }

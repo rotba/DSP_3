@@ -1,6 +1,5 @@
 package mr.calc_sim;
 
-import mr.common.TDBKInputFormat;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
@@ -48,13 +47,15 @@ public class Main {
         Job job = Job.getInstance(conf, "calc_sim");
         job.setJarByClass(Main.class);
         job.setMapperClass(SIMMapper.class);
+        job.setPartitionerClass(SIMPartitioner.class);
         job.setReducerClass(SIMReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setMapOutputValueClass(SimValue.class);
+        job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(DoubleWritable.class);
-        job.setInputFormatClass(TDBKInputFormat.class);
+        job.setInputFormatClass(SimInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
-        if(local.equals("LOCAL")) job.setNumReduceTasks(3);
+        if(local.equals("LOCAL")) job.setNumReduceTasks(1);
         TextInputFormat.addInputPath(job, new Path(input));
         FileOutputFormat.setOutputPath(job, new Path(output));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
