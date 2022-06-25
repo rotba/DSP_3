@@ -33,21 +33,36 @@ public class Main {
         String outBase = bucket+"out/";
         String posPreds = bucket+"tset/positive-preds.txt";
         String negPreds = bucket+"tset/negative-preds.txt";
+        String large = "MILIONS";
         String slots = outBase+"slots";
         String wnOut = outBase+"wn"+cid;
+        String miOut = outBase+"mi"+cid;
+        String simOut = outBase+"sim"+cid;
 
 
         // Run a custom jar file as a step
         HadoopJarStepConfig wnConf = new HadoopJarStepConfig()
                 .withJar(bucket+"jars/DSP_3-1.0-SNAPSHOT-jar-with-dependencies.jar") // replace with the location of the jar to run as a step
-                .withArgs("WN","NO_LOCAL",posPreds, negPreds,percentage, wnOut, slots); // optional list of arguments to pass to the jar
+                .withArgs("WN","NO_LOCAL", large,posPreds, negPreds,percentage, wnOut, slots); // optional list of arguments to pass to the jar
         StepConfig wnJarStep = new StepConfig("wn", wnConf)
+                .withActionOnFailure(ActionOnFailure.CANCEL_AND_WAIT);
+
+        HadoopJarStepConfig miConf = new HadoopJarStepConfig()
+                .withJar(bucket+"jars/DSP_3-1.0-SNAPSHOT-jar-with-dependencies.jar") // replace with the location of the jar to run as a step
+                .withArgs("MI","NO_LOCAL",wnOut, slots, miOut); // optional list of arguments to pass to the jar
+        StepConfig miJarStep = new StepConfig("mi", miConf)
+                .withActionOnFailure(ActionOnFailure.CANCEL_AND_WAIT);
+
+        HadoopJarStepConfig simConf = new HadoopJarStepConfig()
+                .withJar(bucket+"jars/DSP_3-1.0-SNAPSHOT-jar-with-dependencies.jar") // replace with the location of the jar to run as a step
+                .withArgs("SIM","NO_LOCAL",posPreds, negPreds, miOut, simOut); // optional list of arguments to pass to the jar
+        StepConfig simJarStep = new StepConfig("sim", simConf)
                 .withActionOnFailure(ActionOnFailure.CANCEL_AND_WAIT);
 
 
         AddJobFlowStepsResult result = emr.addJobFlowSteps(new AddJobFlowStepsRequest()
                 .withJobFlowId(args[0]) // replace with cluster id to run the steps
-                .withSteps(wnJarStep));
+                .withSteps(wnJarStep, miJarStep,simJarStep));
 
         System.out.println(result.getStepIds());
 

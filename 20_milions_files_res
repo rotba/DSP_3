@@ -1,0 +1,110 @@
+true_positive:
+	X be against Y	X be for Y
+	X be for Y	Y relieve with X
+	X consist of Y	X contain Y
+	X consist of Y	X have Y
+	X control Y	X reduce Y
+	X control with Y	X relieve by Y
+	X correct by Y	X correct with Y
+	X correct by Y	X relieve by Y
+	X correct with Y	X correct by Y
+	X have Y	X consist of Y
+	X help Y	X be for Y
+	X need for Y	X help Y
+	X need for Y	X reduce Y
+	X obtain from Y	X occur in Y
+	X occur in Y	X obtain from Y
+	X occur with Y	X occur in Y
+	X receive Y	X contain Y
+	X receive Y	Y be in X
+	X reduce Y	X need for Y
+	X reduce Y	X relieve Y
+	X reduce to Y	X convert into Y
+	X relieve Y	X be for Y
+	X relieve Y	X control Y
+	X relieve by Y	Y be in X
+	X be for Y	X need for Y
+	X be for Y	X relieve Y
+	X contain Y	X consist of Y
+	X contain Y	X receive Y
+	X contain Y	Y be in X
+	X contract Y	X have Y
+	X control Y	X help Y
+	X control Y	X need for Y
+	X control Y	X relieve Y
+	X control by Y	X relieve by Y
+	X control by Y	Y be in X
+	X control with Y	X control by Y
+	X control with Y	Y be in X
+	X have Y	X contain Y
+	X have Y	Y be in X
+	X help Y	X control Y
+	X help Y	X need for Y
+	X isolate from Y	X obtain from Y
+	X need for Y	X be for Y
+	X need for Y	X control Y
+	X need for Y	X relieve Y
+	X observe in Y	X occur in Y
+	X occur in Y	X occur with Y
+	X occur in Y	Y occur with X
+	X occur with Y	Y occur in X
+	X receive Y	X have Y
+	X relieve Y	X need for Y
+	X relieve Y	Y relieve with X
+	X relieve by Y	X control with Y
+	X be for Y	X be against Y
+	X be for Y	X help Y
+	X contain Y	X have Y
+	X control by Y	X control with Y
+	X convert into Y	X reduce to Y
+	X have Y	X receive Y
+	X help Y	X relieve Y
+	X help Y	Y relieve with X
+	X help with Y	X relieve Y
+	X kill by Y	Y kill X
+	X obtain from Y	X isolate from Y
+	X occur in Y	X observe in Y
+	X reduce Y	X control Y
+	X relieve Y	X help Y
+	X relieve Y	X help with Y
+	X relieve Y	X reduce Y
+	X relieve by Y	X control by Y
+	X relieve by Y	X correct by Y
+true_negative:
+	X contract Y	Y kill X
+	X have Y	X be in Y
+	X have Y	X be in Y
+	X have Y	Y kill X
+	X have Y	Y kill X
+false_positive:
+	X contain Y	X be in Y
+	X occur in Y	Y be in X
+false_negative:
+	X be of Y	X have Y
+	X be of Y	X have Y
+	X cover Y	X be against Y
+	X reduce Y	X be for Y
+	X reduce Y	X be for Y
+	X reduce Y	X help Y
+	X be for Y	X offer Y
+	X be for Y	X offer Y
+	X be for Y	X reduce Y
+	X be for Y	X reduce Y
+	X be with Y	Y be in X
+	X be with Y	Y be in X
+	X control Y	Y relieve with X
+	X have Y	X be of Y
+	X have Y	X be of Y
+	X reduce Y	Y relieve with X
+	X be against Y	X cover Y
+	X consist of Y	Y be in X
+	X consist of Y	Y be in X
+	X control with Y	Y kill X
+	X help Y	X reduce Y
+	X occur in Y	X be in Y
+	X occur in Y	X be in Y
+	X offer Y	X be for Y
+	X offer Y	X be for Y
+##################
+precision: 0.972602739726
+recall: 0.739583333333

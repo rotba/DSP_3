@@ -1,0 +1,60 @@
+true_positive:
+	X be against Y	X be for Y
+	X consist of Y	X contain Y
+	X consist of Y	X have Y
+	X control Y	X reduce Y
+	X have Y	X consist of Y
+	X help Y	X be for Y
+	X need for Y	X help Y
+	X need for Y	X reduce Y
+	X receive Y	X contain Y
+	X receive Y	Y be in X
+	X reduce Y	X need for Y
+	X be for Y	X need for Y
+	X contain Y	X consist of Y
+	X contain Y	X receive Y
+	X contain Y	Y be in X
+	X contract Y	X have Y
+	X control Y	X help Y
+	X control Y	X need for Y
+	X control by Y	Y be in X
+	X control with Y	X control by Y
+	X control with Y	Y be in X
+	X have Y	X contain Y
+	X have Y	Y be in X
+	X help Y	X control Y
+	X help Y	X need for Y
+	X need for Y	X be for Y
+	X need for Y	X control Y
+	X be for Y	X be against Y
+	X be for Y	X help Y
+	X contain Y	X have Y
+	X control by Y	X control with Y
+	X reduce Y	X control Y
+true_negative:
+	X have Y	X be in Y
+	X have Y	X be in Y
+false_positive:
+	X contain Y	X be in Y
+false_negative:
+	X be of Y	X have Y
+	X be of Y	X have Y
+	X reduce Y	X be for Y
+	X reduce Y	X be for Y
+	X reduce Y	X help Y
+	X be for Y	X reduce Y
+	X be for Y	X reduce Y
+	X be with Y	Y be in X
+	X be with Y	Y be in X
+	X have Y	X be of Y
+	X have Y	X be of Y
+	X receive Y	X have Y
+	X receive Y	X have Y
+	X consist of Y	Y be in X
+	X consist of Y	Y be in X
+	X have Y	X receive Y
+	X have Y	X receive Y
+	X help Y	X reduce Y
+##################
+precision: 0.969696969697
+recall: 0.64
