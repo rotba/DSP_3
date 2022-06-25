@@ -67,7 +67,9 @@ public class MiReducer extends Reducer<TriplesDBKey, TriplesDBValue, TriplesDBKe
                 context.getCounter(MiReducerCounters.N_IS_MINUS_1).increment(1);
                 return;
             }
-            context.write(key, new DoubleWritable(calcMi(slot, pN,wN, n)));
+            double res = calcMi(slot, pN, wN, n);
+            if (LOCAL) logger.info(String.format("key:%s, slot:%d, pN:%d, wN:%d, n:%d,mi:%s", key.toString(), slot, pN, wN, n, Double.toString(res)));
+            context.write(key, new DoubleWritable(res));
         }
     }
 

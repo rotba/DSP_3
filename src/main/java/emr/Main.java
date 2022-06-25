@@ -29,6 +29,7 @@ public class Main {
         String cid = args[0];
         String bucket= "s3://dsp3/";
         String baIn =  bucket+"ins/smalls/";
+        String percentage = "100";
         String outBase = bucket+"out/";
         String posPreds = bucket+"tset/positive-preds.txt";
         String negPreds = bucket+"tset/negative-preds.txt";
@@ -39,7 +40,7 @@ public class Main {
         // Run a custom jar file as a step
         HadoopJarStepConfig wnConf = new HadoopJarStepConfig()
                 .withJar(bucket+"jars/DSP_3-1.0-SNAPSHOT-jar-with-dependencies.jar") // replace with the location of the jar to run as a step
-                .withArgs("WN","NO_LOCAL",posPreds, negPreds,baIn, wnOut, slots); // optional list of arguments to pass to the jar
+                .withArgs("WN","NO_LOCAL",posPreds, negPreds,percentage, wnOut, slots); // optional list of arguments to pass to the jar
         StepConfig wnJarStep = new StepConfig("wn", wnConf)
                 .withActionOnFailure(ActionOnFailure.CANCEL_AND_WAIT);
 

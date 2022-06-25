@@ -1,7 +1,11 @@
 package mr.common;
 
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.tartarus.snowball.ext.PorterStemmer;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +32,7 @@ public class Utils {
                     PorterStemmer porterStemmer = new PorterStemmer();
                     porterStemmer.setCurrent(words[k]);
                     porterStemmer.stem();
-                    String stemmedWord = (porterStemmer.getCurrent());
+                    String stemmedWord = porterStemmer.getCurrent();
                     if(stemmedSentence == null)
                         stemmedSentence = stemmedWord;
                     else
@@ -36,6 +40,17 @@ public class Utils {
                 }
                 ans.put(stemmedSentence, testSetRaw[i][j]);
             }
+        }
+        return ans;
+    }
+
+
+    public static String[] addInputs(String percentage, String[] inputs) {
+        double perc = ((double)Integer.parseInt(percentage)) / 100.0;
+        int numOfInputs = (int)(inputs.length*perc);
+        String[] ans = new String[numOfInputs];
+        for (int i = 0; i < numOfInputs; i++) {
+            ans[i] = inputs[i];
         }
         return ans;
     }

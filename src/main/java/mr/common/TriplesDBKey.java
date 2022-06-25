@@ -17,6 +17,13 @@ public class TriplesDBKey implements WritableComparable<TriplesDBKey> {
 
     private boolean joinPn;
 
+    public TriplesDBKey(TriplesDBKey key) {
+        stemmedK = key.getStemmedK();
+        slot = key.getSlot();
+        w = key.getW();
+        naturalK = key.getNaturalK();
+    }
+
     public String getStemmedK() {
         return stemmedK;
     }

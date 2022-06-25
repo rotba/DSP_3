@@ -55,7 +55,7 @@ public class Main {
         job.setOutputValueClass(DoubleWritable.class);
         job.setInputFormatClass(SimInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
-        if(local.equals("LOCAL")) job.setNumReduceTasks(1);
+        if(local.equals("LOCAL")) job.setNumReduceTasks(3);
         TextInputFormat.addInputPath(job, new Path(input));
         FileOutputFormat.setOutputPath(job, new Path(output));
         System.exit(job.waitForCompletion(true) ? 0 : 1);

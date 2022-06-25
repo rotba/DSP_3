@@ -16,13 +16,24 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 public class Main {
     public static final Logger logger = Logger.getLogger(Main.class);
+    public static String[] localInputs = {
+            "/2test/in/small/"
+    };
+    public static String[] remoteInputs = {
+            "s3://dsp3/ins/milions/biarcs.10-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.20-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.30-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.40-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.50-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.60-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.70-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.80-of-99.gz",
+            "s3://dsp3/ins/milions/biarcs.90-of-99.gz",
+    };
     public static void main(String[] args) throws Exception {
         int argsIndex =0;
         String local = args[argsIndex++];
@@ -59,12 +70,12 @@ public class Main {
         job.setPartitionerClass(TBDKeyPartitioner.class);
         job.setMapOutputKeyClass(TriplesDBKey.class);
         job.setMapOutputValueClass(IntWritable.class);
-//        job.setOutputKeyClass(TriplesDBKey.class);
-//        job.setOutputValueClass(TriplesDBValue.class);
         job.setInputFormatClass(TextInputFormat.class);
-//        job.setOutputFormatClass(TextOutputFormat.class);
-        if(local.equals("LOCAL")) job.setNumReduceTasks(1);
-        TextInputFormat.addInputPath(job, new Path(input));
+        if(local.equals("LOCAL")) job.setNumReduceTasks(3);
+        String[] inputs = mr.common.Utils.addInputs(input, local.equals("LOCAL") ? localInputs: remoteInputs);
+        for (int i = 0; i < inputs.length; i++) {
+            TextInputFormat.addInputPath(job, new Path(inputs[i]));
+        }
         FileOutputFormat.setOutputPath(job, new Path(output));
         boolean b = job.waitForCompletion(true);
         if(!b){
@@ -80,4 +91,5 @@ public class Main {
         fileSystem.close();
         System.exit(0 );
     }
+
 }

@@ -32,13 +32,17 @@ public class SIMReducer extends Reducer<Text, SimValue, Text, DoubleWritable> {
                 logger.info(String.format("key:%s, val.k:%s, val.val:%s", key.toString(), val.key.toString(), Double.toString(val.getValue())));
             TriplesDBKey valKey = val.key;
             if (valKey.getSlot().equals(TriplesDBKey.X) && valKey.getNaturalK().equals(sentences[0])) {
-                p1XFeatures.add(val);
+                if (LOCAL) logger.info("added to p1x");
+                p1XFeatures.add(new SimValue(val));
             } else if (valKey.getSlot().equals(TriplesDBKey.X) && valKey.getNaturalK().equals(sentences[1])) {
-                p2XFeatures.add(val);
+                if (LOCAL) logger.info("added to p2x");
+                p2XFeatures.add(new SimValue(val));
             } else if (valKey.getSlot().equals(TriplesDBKey.Y) && valKey.getNaturalK().equals(sentences[0])) {
-                p1YFeatures.add(val);
+                if (LOCAL) logger.info("added to p1y");
+                p1YFeatures.add(new SimValue(val));
             } else if (valKey.getSlot().equals(TriplesDBKey.Y) && valKey.getNaturalK().equals(sentences[1])) {
-                p2YFeatures.add(val);
+                if (LOCAL) logger.info("added to p2y");
+                p2YFeatures.add(new SimValue(val));
             } else {
                 context.getCounter(SIMReducerCounters.KEY_VAL_NOT_MATCH).increment(1);
                 return;
@@ -49,11 +53,13 @@ public class SIMReducer extends Reducer<Text, SimValue, Text, DoubleWritable> {
         double simY;
         if (LOCAL) logger.info(String.format("Calc sim for p1:%s, p2:%s", sentences[0], sentences[1]));
         if (s2[0].equals(TriplesDBKey.X)) {
+            if (LOCAL) logger.info("X -> X, Y -> Y");
             simX = calcSim(p1XFeatures, p2XFeatures);
             simY = calcSim(p1YFeatures, p2YFeatures);
         } else {
+            if (LOCAL) logger.info("X -> Y, Y -> X");
             simX = calcSim(p1XFeatures, p2YFeatures);
-            simY = calcSim(p2XFeatures, p1YFeatures);
+            simY = calcSim(p1YFeatures, p2XFeatures);
         }
         context.write(new Text(sentences[0] + " " + sentences[1]), new DoubleWritable(Math.sqrt(simX * simY)));
     }

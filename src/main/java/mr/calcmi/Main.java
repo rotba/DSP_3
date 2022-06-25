@@ -36,7 +36,11 @@ public class Main {
         }finally{
             fs.close();
         }
-        conf.set("SLOTS", slotsStr);
+        if (local.equals("LOCAL")){
+            conf.set("SLOTS", "SLOTX\t1000");
+        }else{
+            conf.set("SLOTS", slotsStr);
+        }
         conf.reloadConfiguration();
         Job job = Job.getInstance(conf, "joinwn");
         job.setJarByClass(Main.class);
@@ -48,7 +52,7 @@ public class Main {
         job.setOutputValueClass(DoubleWritable.class);
         job.setInputFormatClass(TDBKInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
-        if(local.equals("LOCAL")) job.setNumReduceTasks(1);
+        if(local.equals("LOCAL")) job.setNumReduceTasks(3);
         conf.set("LOCAL", local);
         conf.reloadConfiguration();
         TextInputFormat.addInputPath(job, new Path(input));

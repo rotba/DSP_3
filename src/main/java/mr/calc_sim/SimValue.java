@@ -22,6 +22,11 @@ public class SimValue implements Writable {
         this.value = value;
     }
 
+    public SimValue(SimValue val) {
+        this.key = new TriplesDBKey(val.key);
+        this.value = val.value;
+    }
+
     @Override
     public void write(DataOutput dataOutput) throws IOException {
         key.write(dataOutput);
