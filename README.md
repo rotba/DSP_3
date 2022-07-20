@@ -1,6 +1,13 @@
 # DSP_3
 - id: fill
 - username: rotba
+## Links
+- [10 files from milion - mi](https://s3.console.aws.amazon.com/s3/buckets/dsp3?region=us-east-1&prefix=out/simj-162GXQ6452H1S/&showversions=false)
+- [10 files from milion - sim](https://s3.console.aws.amazon.com/s3/buckets/dsp3?region=us-east-1&prefix=out/simj-162GXQ6452H1S/&showversions=false)
+- [20 files from milion - mi](https://s3.console.aws.amazon.com/s3/buckets/dsp3?region=us-east-1&prefix=out/mij-26EQ0S9FMEEY9/&showversions=false)
+- [20 files from milion - sim](https://s3.console.aws.amazon.com/s3/buckets/dsp3?region=us-east-1&prefix=out/simj-26EQ0S9FMEEY9/&showversions=false)
+- [6 files from all - mi](https://s3.console.aws.amazon.com/s3/buckets/dsp3?region=us-east-1&prefix=out/mij-2KW18I2YFA113/&showversions=false)
+- [6 files from all - sim](https://s3.console.aws.amazon.com/s3/buckets/dsp3?region=us-east-1&prefix=out/simj-2KW18I2YFA113/&showversions=false)
 
 ## System design
  ### Map reduce steps:
