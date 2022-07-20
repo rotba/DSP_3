@@ -33,7 +33,7 @@ public class Main {
         String outBase = bucket+"out/";
         String posPreds = bucket+"tset/positive-preds.txt";
         String negPreds = bucket+"tset/negative-preds.txt";
-        String large = "MILIONS";
+        String large = "LARGE";
         String slots = outBase+"slots";
         String wnOut = outBase+"wn"+cid;
         String miOut = outBase+"mi"+cid;
