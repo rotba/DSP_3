@@ -13,7 +13,7 @@
  ### Map reduce steps:
  - Terms: 
    - wN: |*,slot,w|
-   - pN: |p,slot,N|
+   - pN: |p,slot,*|
    - slotN: |\*,slot,\*|
  #### Calculation of all the wN's, pN's and of slotN and joining of wN:
  - (biarcs-data, positive-test-set, negative-test-set) -> STEP1_OUTPUT: Paths * Words * Slot -> {-1} * {-1} * N * N
